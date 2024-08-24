@@ -2,6 +2,7 @@ package br.com.erudio.services
 
 import br.com.erudio.controller.PersonController
 import br.com.erudio.date.vo.v1.PersonVO
+import br.com.erudio.exceptions.RequiredObjectIsNullException
 import br.com.erudio.exceptions.ResourceNotFoundException
 import br.com.erudio.mapper.DozerMapper
 import br.com.erudio.model.Person
@@ -40,25 +41,31 @@ class PersonService {
         return personVO
     }
 
-    fun create(person: PersonVO): PersonVO {
+    fun create(person: PersonVO?): PersonVO {
+        if (person == null) throw RequiredObjectIsNullException("Person object cannot be null")
         logger.info("Creating new person with name: ${person.firstName}")
         val entity: Person = DozerMapper.parseObject(person, Person::class.java)
         val personVO = DozerMapper.parseObject(repository.save(entity), PersonVO::class.java)
         val withSelfRel = linkTo(PersonController::class.java).slash(personVO.key).withSelfRel()
         personVO.add(withSelfRel)
+
+
         return personVO
     }
 
-    fun update(person: PersonVO): PersonVO {
+    fun update(person: PersonVO?): PersonVO {
+        if (person == null) throw RequiredObjectIsNullException("Person object cannot be null")
         logger.info("Updating one person with ID ${person.key}!")
-        val entity = repository.findById(person.key)
-            .orElseThrow { ResourceNotFoundException("No records found for this ID!") }
+        val entity = person.key.let {
+            repository.findById(it)
+                .orElseThrow { ResourceNotFoundException("No records found for this ID!") }
+        }
 
-        entity.firstName = person.firstName
-        entity.lastName = person.lastName
-        entity.address = person.address
-        entity.gender = person.gender
-        val personVO = DozerMapper.parseObject(repository.save(entity), PersonVO::class.java)
+        entity?.firstName = person.firstName
+        entity?.lastName = person.lastName
+        entity?.address = person.address
+        entity?.gender = person.gender
+        val personVO = DozerMapper.parseObject(entity?.let { repository.save(it) }, PersonVO::class.java)
         val withSelfRel = linkTo(PersonController::class.java).slash(personVO.key).withSelfRel()
         personVO.add(withSelfRel)
         return personVO
