@@ -6,7 +6,10 @@ spring:
     password: Root1234#
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
     show-sql: false
   flyway:
     baseline-on-migrate: true
