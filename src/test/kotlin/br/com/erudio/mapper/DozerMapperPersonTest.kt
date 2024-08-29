@@ -1,14 +1,13 @@
-package br.com.erudio.unittests.mapper
+package br.com.erudio.mapper
 
 import br.com.erudio.date.vo.v1.PersonVO
-import br.com.erudio.mapper.DozerMapper
 import br.com.erudio.model.Person
 import br.com.erudio.unittests.mapper.mocks.MockPerson
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class DozerMapperTest {
+class DozerMapperPersonTest {
 
     var inputObject: MockPerson? = null
 
