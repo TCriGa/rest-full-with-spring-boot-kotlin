@@ -13,6 +13,7 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
+
 @RestController
 @RequestMapping("/api/person/v1")
 @Tag(name = "People", description = "Endpoints for Managing People")
@@ -104,6 +105,7 @@ class PersonController {
             ),
         ]
     )
+    @CrossOrigin(origins = ["http://localhost:8080"])
     fun findById(
         @PathVariable(value = "id") id: Long,
     ): PersonVO {
@@ -142,6 +144,7 @@ class PersonController {
             ),
         ]
     )
+    @CrossOrigin(origins = ["http://localhost:8080", "https://erudio.com.br"])
     fun create(
         @RequestBody person: PersonVO
     ): PersonVO {
