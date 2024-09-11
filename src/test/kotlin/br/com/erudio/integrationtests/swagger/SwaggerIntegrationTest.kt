@@ -5,8 +5,9 @@ import br.com.erudio.integrationtests.testcontainer.AbstractIntegrationTest
 import io.restassured.RestAssured.given
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.springframework.boot.test.context.SpringBootTest
 
-
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class SwaggerIntegrationTest : AbstractIntegrationTest() {
 
     @Test
