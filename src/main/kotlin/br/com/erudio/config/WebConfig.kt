@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 class WebConfig : WebMvcConfigurer {
 
     private val MEDIA_TYPE_APPLICATION_YML = MediaType.valueOf("application/x-yaml")
-    
+
     @Value("\${cors.originPatterns:default}")
     private val corsOriginPatterns: String = ""
 
@@ -22,13 +22,6 @@ class WebConfig : WebMvcConfigurer {
     }
 
     override fun configureContentNegotiation(configurer: ContentNegotiationConfigurer) {
-//        configurer.favorParameter(true)
-//            .parameterName("mediaType")
-//            .ignoreAcceptHeader(true)
-//            .useRegisteredExtensionsOnly(false)
-//            .defaultContentType(MediaType.APPLICATION_JSON)
-//            .mediaType("json", MediaType.APPLICATION_JSON)
-//            .mediaType("xml", MediaType.APPLICATION_XML)
 
         configurer.favorParameter(false)
             .ignoreAcceptHeader(false)
@@ -38,6 +31,7 @@ class WebConfig : WebMvcConfigurer {
             .mediaType("xml", MediaType.APPLICATION_XML)
             .mediaType("x-yaml", MEDIA_TYPE_APPLICATION_YML)
     }
+
     override fun addCorsMappings(registry: CorsRegistry) {
         val allowedOrigins = corsOriginPatterns.split(",").toTypedArray()
         registry.addMapping("/**")
