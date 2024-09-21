@@ -10,7 +10,9 @@ import java.util.logging.Logger
 
 
 @Service
-class UserService(@field:Autowired var repository: UserRepository) : UserDetailsService {
+class UserService() : UserDetailsService {
+    @Autowired
+    private lateinit var repository: UserRepository
 
     private val logger = Logger.getLogger(UserService::class.java.name)
 
