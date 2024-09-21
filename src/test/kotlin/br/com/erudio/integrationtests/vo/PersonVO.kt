@@ -1,4 +1,4 @@
-package br.com.erudio.integrationtests.VO
+package br.com.erudio.integrationtests.vo
 
 data class PersonVO(
 
