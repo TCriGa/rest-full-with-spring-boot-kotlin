@@ -5,7 +5,7 @@ import org.springframework.security.core.GrantedAuthority
 
 @Entity
 @Table(name = "permission")
-class Permission  : GrantedAuthority {
+class Permission : GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

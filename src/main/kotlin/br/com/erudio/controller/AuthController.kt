@@ -19,7 +19,7 @@ class AuthController {
 
     @Operation(summary = "Authenticates an user and return a token")
     @PostMapping(value = ["/signin"])
-    fun signin(@RequestBody data: AccountCredentialsVO?) : ResponseEntity<*> {
+    fun signin(@RequestBody data: AccountCredentialsVO?): ResponseEntity<*> {
         return if (data!!.username.isNullOrBlank() || data.password.isNullOrBlank())
             ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body("Invalid client request")
@@ -28,8 +28,10 @@ class AuthController {
 
     @Operation(summary = "Refresh token for authenticated user and returns a token")
     @PutMapping(value = ["/refresh/{username}"])
-    fun refreshToken(@PathVariable("username") username: String?,
-                     @RequestHeader("Authorization") refreshToken: String?) : ResponseEntity<*> {
+    fun refreshToken(
+        @PathVariable("username") username: String?,
+        @RequestHeader("Authorization") refreshToken: String?
+    ): ResponseEntity<*> {
         return if (refreshToken.isNullOrBlank() || username.isNullOrBlank())
             ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body("Invalid client request")

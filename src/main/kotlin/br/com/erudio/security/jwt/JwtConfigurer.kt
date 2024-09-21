@@ -8,8 +8,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Service
 
 @Service
-class JwtConfigurer(@field:Autowired private val tokenProvider: JwtTokenProvider)
-    : SecurityConfigurerAdapter<DefaultSecurityFilterChain?, HttpSecurity>() {
+class JwtConfigurer(@field:Autowired private val tokenProvider: JwtTokenProvider) :
+    SecurityConfigurerAdapter<DefaultSecurityFilterChain?, HttpSecurity>() {
 
     override fun configure(http: HttpSecurity) {
         val customFilter = JwtTokenFilter(tokenProvider)

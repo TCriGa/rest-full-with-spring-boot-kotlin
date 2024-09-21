@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service
 import org.springframework.web.filter.GenericFilterBean
 
 @Service
-class JwtTokenFilter(@field:Autowired private val tokenProvider: JwtTokenProvider): GenericFilterBean() {
+class JwtTokenFilter(@field:Autowired private val tokenProvider: JwtTokenProvider) : GenericFilterBean() {
 
     override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain) {
         val token = tokenProvider.resolveToken(request as HttpServletRequest)
-        if(!token.isNullOrBlank() && tokenProvider.validateToken(token)) {
+        if (!token.isNullOrBlank() && tokenProvider.validateToken(token)) {
             val auth = tokenProvider.getAuthentication(token)
             SecurityContextHolder.getContext().authentication = auth
         }

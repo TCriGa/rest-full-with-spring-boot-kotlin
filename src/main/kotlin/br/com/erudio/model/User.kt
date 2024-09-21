@@ -1,4 +1,5 @@
 package br.com.erudio.model
+
 import jakarta.persistence.*
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -6,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails
 @Entity
 @Table(name = "users")
 class User : UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0
@@ -40,7 +42,7 @@ class User : UserDetails {
     var permissions: List<Permission>? = null
 
     val roles: List<String?>
-        get(){
+        get() {
             val roles: MutableList<String?> = ArrayList()
             for (permission in permissions!!) {
                 roles.add(permission.description)
