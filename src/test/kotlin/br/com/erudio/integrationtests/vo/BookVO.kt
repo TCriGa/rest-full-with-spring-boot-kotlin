@@ -1,18 +1,14 @@
 package br.com.erudio.integrationtests.vo
 
-import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.annotation.JsonPropertyOrder
-import com.github.dozermapper.core.Mapping
-import org.springframework.hateoas.RepresentationModel
+import jakarta.xml.bind.annotation.XmlRootElement
 import java.util.*
 
-@JsonPropertyOrder("id", "author", "publicationYear", "price", "title")
-data class BooksVO(
-    @Mapping("id")
-    @JsonProperty("id")
-    var key: Long = 0,
-    var title: String = "",
+@XmlRootElement
+data class BookVO(
+
+    var id: Long = 0,
     var author: String = "",
+    var launchDate: Date? = null,
     var price: Double = 0.0,
-    var publicationYear: Date? = null
-): RepresentationModel<BooksVO>()
+    var title: String = ""
+)

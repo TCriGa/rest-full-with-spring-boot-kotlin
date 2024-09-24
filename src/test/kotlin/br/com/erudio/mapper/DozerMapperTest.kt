@@ -1,13 +1,12 @@
-package br.com.erudio.mapper
-
 import br.com.erudio.date.vo.v1.PersonVO
+import br.com.erudio.mapper.DozerMapper
 import br.com.erudio.model.Person
 import br.com.erudio.unittests.mapper.mocks.MockPerson
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class DozerMapperPersonTest {
+class DozerMapperTest {
 
     var inputObject: MockPerson? = null
 
@@ -29,7 +28,7 @@ class DozerMapperPersonTest {
     @Test
     fun parseEntityListToVOListTest() {
         val outputList: ArrayList<PersonVO> =
-            DozerMapper.parseListObject(inputObject!!.mockEntityList(), PersonVO::class.java)
+            DozerMapper.parseListObjects(inputObject!!.mockEntityList(), PersonVO::class.java)
 
         val outputZero: PersonVO = outputList[0]
 
@@ -69,7 +68,7 @@ class DozerMapperPersonTest {
     @Test
     fun parserVOListToEntityListTest() {
 
-        val outputList: ArrayList<Person> = DozerMapper.parseListObject(inputObject!!.mockVOList(), Person::class.java)
+        val outputList: ArrayList<Person> = DozerMapper.parseListObjects(inputObject!!.mockVOList(), Person::class.java)
 
         val outputZero: Person = outputList[0]
         assertEquals(0, outputZero.id)

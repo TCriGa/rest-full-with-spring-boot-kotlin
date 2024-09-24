@@ -1,6 +1,6 @@
 package br.com.erudio.controller
 
-import br.com.erudio.date.vo.v1.BooksVO
+import br.com.erudio.date.vo.v1.BookVO
 import br.com.erudio.services.BooksService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
@@ -26,7 +26,7 @@ class BooksController {
                 description = "Success",
                 responseCode = "200",
                 content = [
-                    Content(schema = Schema(implementation = BooksVO::class))
+                    Content(schema = Schema(implementation = BookVO::class))
                 ]
             ),
             ApiResponse(
@@ -58,7 +58,7 @@ class BooksController {
     )
     fun findAllBooks() = booksService.findAllBooks()
 
-    @GetMapping(value = ["/{id}"], produces = [MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE])
+    @GetMapping(value = ["/{id}"], produces = [MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, "application/x-yaml"])
     @Operation(
         summary = "Finds a book by ID", description = "Finds a book by ID",
         tags = ["Books"],
@@ -67,7 +67,7 @@ class BooksController {
                 description = "Success",
                 responseCode = "200",
                 content = [
-                    Content(schema = Schema(implementation = BooksVO::class))
+                    Content(schema = Schema(implementation = BookVO::class))
                 ]
             ),
             ApiResponse(
@@ -108,7 +108,7 @@ class BooksController {
                 description = "Success",
                 responseCode = "200",
                 content = [
-                    Content(schema = Schema(implementation = BooksVO::class))
+                    Content(schema = Schema(implementation = BookVO::class))
                 ]
             ),
             ApiResponse(
@@ -133,7 +133,7 @@ class BooksController {
             )
         ]
     )
-    fun createBook(@RequestBody book: BooksVO) = booksService.createBook(book)
+    fun createBook(@RequestBody book: BookVO) = booksService.createBook(book)
 
     @PutMapping(
         consumes = [MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, "application/x-yaml"],
@@ -147,7 +147,7 @@ class BooksController {
                 description = "Success",
                 responseCode = "200",
                 content = [
-                    Content(schema = Schema(implementation = BooksVO::class))
+                    Content(schema = Schema(implementation = BookVO::class))
                 ]
             ),
             ApiResponse(
@@ -172,9 +172,9 @@ class BooksController {
             )
         ]
     )
-    fun updateBook(@RequestBody book: BooksVO) = booksService.updateBook(book)
+    fun updateBook(@RequestBody book: BookVO) = booksService.updateBook(book)
 
-    @DeleteMapping(value = ["/{id}"], produces = [MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE])
+    @DeleteMapping(value = ["/{id}"], produces = [MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, "application/x-yaml"])
     @Operation(
         summary = "Removes a book by ID", description = "Removes a book by ID",
         tags = ["Books"],

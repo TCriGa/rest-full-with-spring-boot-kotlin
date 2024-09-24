@@ -37,7 +37,7 @@ class BooksServiceTest {
     @Test
     fun findAllBooks() {
         //Given
-        val mockBook = listOf(inputObject.mockBookEntity(1), inputObject.mockBookEntity(2))
+        val mockBook = listOf(inputObject.mockEntity(1), inputObject.mockEntity(2))
         //When
         Mockito.`when`(mockRepository.findAll()).thenReturn(mockBook)
 
@@ -50,14 +50,14 @@ class BooksServiceTest {
         assertNotNull(result.firstOrNull()?.author)
         assertNotNull(result.firstOrNull()?.price)
         assertNotNull(result.firstOrNull()?.links.toString().contains("</api/books/v1/1>;rel=\"self\""))
-        assertTrue(result.contains(inputObject.mockBookVO(1)))
-        assertTrue(result.contains(inputObject.mockBookVO(2)))
+        assertTrue(result.contains(inputObject.mockVO(1)))
+        assertTrue(result.contains(inputObject.mockVO(2)))
 
     }
 
     @Test
     fun findByIdBook() {
-        val mockBookEntity = inputObject.mockBookEntity()
+        val mockBookEntity = inputObject.mockEntity(1)
         Mockito.`when`(mockRepository.findById(mockBookEntity.id)).thenReturn(Optional.of(mockBookEntity))
 
         val result = service.findByIdBook(mockBookEntity.id)
@@ -77,8 +77,8 @@ class BooksServiceTest {
 
     @Test
     fun createBook() {
-        val mockBookEntity = inputObject.mockBookEntity()
-        val bookVO = inputObject.mockBookVO(1)
+        val mockBookEntity = inputObject.mockEntity(1)
+        val bookVO = inputObject.mockVO(1)
 
         Mockito.`when`(mockRepository.save(mockBookEntity)).thenReturn(mockBookEntity.copy())
 
@@ -96,8 +96,8 @@ class BooksServiceTest {
 
     @Test
     fun updateBook() {
-        val mockBookEntity = inputObject.mockBookEntity()
-        val bookVO = inputObject.mockBookVO(1)
+        val mockBookEntity = inputObject.mockEntity(1)
+        val bookVO = inputObject.mockVO(1)
 
         Mockito.`when`(mockRepository.findById(bookVO.key)).thenReturn(Optional.of(mockBookEntity))
         Mockito.`when`(mockRepository.save(mockBookEntity)).thenReturn(mockBookEntity.copy())
@@ -116,7 +116,7 @@ class BooksServiceTest {
 
     @Test
     fun deleteBook() {
-        val mockBookEntity = inputObject.mockBookEntity()
+        val mockBookEntity = inputObject.mockEntity(1)
 
         Mockito.`when`(mockRepository.findById(mockBookEntity.id)).thenReturn(Optional.of(mockBookEntity))
         service.deleteBook(mockBookEntity.id)

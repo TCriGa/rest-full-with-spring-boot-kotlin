@@ -7,7 +7,7 @@ import org.springframework.hateoas.RepresentationModel
 import java.util.*
 
 @JsonPropertyOrder("id", "author", "publicationYear", "price", "title")
-data class BooksVO(
+data class BookVO(
     @Mapping("id")
     @JsonProperty("id")
     var key: Long = 0,
@@ -15,4 +15,4 @@ data class BooksVO(
     var author: String = "",
     var price: Double = 0.0,
     var publicationYear: Date? = null
-): RepresentationModel<BooksVO>()
+): RepresentationModel<BookVO>()
