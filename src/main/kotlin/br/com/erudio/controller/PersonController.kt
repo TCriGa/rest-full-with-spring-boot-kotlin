@@ -2,6 +2,7 @@ package br.com.erudio.controller
 
 import br.com.erudio.date.vo.v1.PersonVO
 import br.com.erudio.services.PersonService
+import br.com.erudio.utl.MediaType
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
@@ -9,7 +10,6 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -22,7 +22,7 @@ class PersonController {
     @Autowired
     private lateinit var service: PersonService
 
-    @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, "application/x-yaml"])
+    @GetMapping(produces = [MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,MediaType.APPLICATION_YML])
     @Operation(
         summary = "Finds all People", description = "Finds all People",
         tags = ["People"],
@@ -66,7 +66,7 @@ class PersonController {
         return service.findAll()
     }
 
-    @GetMapping(value = ["/{id}"], produces = [MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE])
+    @GetMapping(value = ["/{id}"], produces = [MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,MediaType.APPLICATION_YML])
     @Operation(
         summary = "Finds a Person", description = "Finds a Person",
         tags = ["People"],
@@ -113,8 +113,8 @@ class PersonController {
     }
 
     @PostMapping(
-        consumes = [MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, "application/x-yaml"],
-        produces = [MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, "application/x-yaml"]
+        consumes = [MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,MediaType.APPLICATION_YML],
+        produces = [MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,MediaType.APPLICATION_YML]
     )
     @Operation(
         summary = "Adds a new Person", description = "Adds a new Person",
@@ -152,8 +152,8 @@ class PersonController {
     }
 
     @PutMapping(
-        consumes = [MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, "application/x-yaml"],
-        produces = [MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, "application/x-yaml"]
+        consumes = [MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,MediaType.APPLICATION_YML],
+        produces = [MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,MediaType.APPLICATION_YML]
     )
     @Operation(
         summary = "Updates a person's information", description = "Updates a person's information",
@@ -197,6 +197,39 @@ class PersonController {
         @RequestBody person: PersonVO
     ): PersonVO {
         return service.update(person)
+    }
+
+    @PatchMapping(value = ["/{id}"],
+        produces = [MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,MediaType.APPLICATION_YML])
+    @Operation(summary = "Disable a Person", description = "Disable a Person",
+        tags = ["People"],
+        responses = [
+            ApiResponse(
+                description = "Success",
+                responseCode = "200",
+                content = [
+                    Content(schema = Schema(implementation = PersonVO::class))
+                ]
+            ),
+            ApiResponse(description = "No Content", responseCode = "204", content = [
+                Content(schema = Schema(implementation = Unit::class))
+            ]),
+            ApiResponse(description = "Bad Request", responseCode = "400", content = [
+                Content(schema = Schema(implementation = Unit::class))
+            ]),
+            ApiResponse(description = "Unauthorized", responseCode = "401", content = [
+                Content(schema = Schema(implementation = Unit::class))
+            ]),
+            ApiResponse(description = "Not Found", responseCode = "404", content = [
+                Content(schema = Schema(implementation = Unit::class))
+            ]),
+            ApiResponse(description = "Internal Error", responseCode = "500", content = [
+                Content(schema = Schema(implementation = Unit::class))
+            ]),
+        ]
+    )
+    fun disablePersonById(@PathVariable(value="id") id: Long): PersonVO {
+        return service.disablePerson(id)
     }
 
     @DeleteMapping(value = ["{id}"])
