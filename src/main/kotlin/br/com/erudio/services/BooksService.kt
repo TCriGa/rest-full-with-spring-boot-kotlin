@@ -7,6 +7,10 @@ import br.com.erudio.mapper.DozerMapper
 import br.com.erudio.model.Books
 import br.com.erudio.repository.BookRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PagedResourcesAssembler
+import org.springframework.hateoas.EntityModel
+import org.springframework.hateoas.PagedModel
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.stereotype.Service
 import java.util.logging.Logger
@@ -18,28 +22,26 @@ class BooksService {
     @Autowired
     private lateinit var bookRepository: BookRepository
 
+    private lateinit var assembler: PagedResourcesAssembler<BookVO>
+
     private val logger = Logger.getLogger(BooksService::class.java.name)
 
-    fun findAllBooks(): List<BookVO> {
-        logger.info("Find all books!")
-        val booksVOS = DozerMapper.parseListObjects(bookRepository.findAll(), BookVO::class.java)
-
-        for (book in booksVOS) {
-            val withSelfRel = linkTo(BooksController::class.java).slash(book.key).withSelfRel()
-            book.add(withSelfRel)
-        }
-
-        return booksVOS
+    fun findAllBooks(pageable: Pageable): PagedModel<EntityModel<BookVO>> {
+        logger.info("Finding all books!")
+        val page = bookRepository.findAll(pageable)
+        val vos = page.map { b -> DozerMapper.parseObject(b, BookVO::class.java) }
+        vos.map { p -> p.add(linkTo(BooksController::class.java).slash(p.key).withSelfRel()) }
+        return assembler.toModel(vos)
     }
 
-    fun findByIdBook(id: Long): BookVO {
-        logger.info("Find book with id: $id")
-        val book = bookRepository.findById(id).orElseThrow { RuntimeException("No book found for id: $id") }
-        val bookVO = DozerMapper.parseObject(book, BookVO::class.java)
 
+    fun findByIdBook(id: Long): BookVO {
+        logger.info("Finding one book with ID $id!")
+        var book = bookRepository.findById(id)
+            .orElseThrow { ResourceNotFoundException("No records found for this ID!") }
+        val bookVO: BookVO = DozerMapper.parseObject(book, BookVO::class.java)
         val withSelfRel = linkTo(BooksController::class.java).slash(bookVO.key).withSelfRel()
         bookVO.add(withSelfRel)
-
         return bookVO
     }
 
