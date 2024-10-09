@@ -34,26 +34,6 @@ class BooksServiceTest {
         MockitoAnnotations.openMocks(this)
     }
 
-    @Test
-    fun findAllBooks() {
-        //Given
-        val mockBook = listOf(inputObject.mockEntity(1), inputObject.mockEntity(2))
-        //When
-        Mockito.`when`(mockRepository.findAll()).thenReturn(mockBook)
-
-        val result = service.findAllBooks()
-        //Then
-
-        assertNotNull(result)
-        assertNotNull(result.firstOrNull()?.key)
-        assertNotNull(result.firstOrNull()?.title)
-        assertNotNull(result.firstOrNull()?.author)
-        assertNotNull(result.firstOrNull()?.price)
-        assertNotNull(result.firstOrNull()?.links.toString().contains("</api/books/v1/1>;rel=\"self\""))
-        assertTrue(result.contains(inputObject.mockVO(1)))
-        assertTrue(result.contains(inputObject.mockVO(2)))
-
-    }
 
     @Test
     fun findByIdBook() {

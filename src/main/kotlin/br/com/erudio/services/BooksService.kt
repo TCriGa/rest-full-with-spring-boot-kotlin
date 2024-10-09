@@ -26,7 +26,7 @@ class BooksService {
 
     private val logger = Logger.getLogger(BooksService::class.java.name)
 
-    fun findAllBooks(pageable: Pageable): PagedModel<EntityModel<BookVO>> {
+    fun findAll(pageable: Pageable): PagedModel<EntityModel<BookVO>> {
         logger.info("Finding all books!")
         val page = bookRepository.findAll(pageable)
         val vos = page.map { b -> DozerMapper.parseObject(b, BookVO::class.java) }

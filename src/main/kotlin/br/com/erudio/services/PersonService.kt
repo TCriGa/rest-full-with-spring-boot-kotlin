@@ -23,7 +23,7 @@ class PersonService {
     @Autowired
     private lateinit var repository: PersonRepository
 
-
+    @Autowired
     private lateinit var assembler: PagedResourcesAssembler<PersonVO>
 
     private val logger = Logger.getLogger(PersonService::class.java.name)
@@ -34,7 +34,7 @@ class PersonService {
 
         val persons = repository.findAll(pageable)
         val vos = persons.map { p -> DozerMapper.parseObject(p, PersonVO::class.java) }
-        vos.map { p ->  p.add(linkTo(PersonController::class.java).slash(p.key).withSelfRel())}
+        vos.map { p -> p.add(linkTo(PersonController::class.java).slash(p.key).withSelfRel()) }
         return assembler.toModel(vos)
     }
 
@@ -44,7 +44,7 @@ class PersonService {
 
         val persons = repository.findPersonByName(firstName, pageable)
         val vos = persons.map { p -> DozerMapper.parseObject(p, PersonVO::class.java) }
-        vos.map { p ->  p.add(linkTo(PersonController::class.java).slash(p.key).withSelfRel())}
+        vos.map { p -> p.add(linkTo(PersonController::class.java).slash(p.key).withSelfRel()) }
         return assembler.toModel(vos)
     }
 
@@ -58,7 +58,7 @@ class PersonService {
         return personVO
     }
 
-    fun create(person: PersonVO?) : PersonVO{
+    fun create(person: PersonVO?): PersonVO {
         if (person == null) throw RequiredObjectIsNullException()
         logger.info("Creating one person with name ${person.firstName}!")
         var entity: Person = DozerMapper.parseObject(person, Person::class.java)
@@ -68,7 +68,7 @@ class PersonService {
         return personVO
     }
 
-    fun update(person: PersonVO?) : PersonVO{
+    fun update(person: PersonVO?): PersonVO {
         if (person == null) throw RequiredObjectIsNullException()
         logger.info("Updating one person with ID ${person.key}!")
         val entity = repository.findById(person.key)
