@@ -262,7 +262,7 @@ class PersonControllerYmlTest : AbstractIntegrationTest() {
             .body()
             .`as`(WrapperPersonVO::class.java, objectMapper)
 
-        val people = wrapper.embedded!!.persons
+        val people = wrapper.embedded!!.personVOes
 
         val item1 = people?.get(0)
 
@@ -318,7 +318,7 @@ class PersonControllerYmlTest : AbstractIntegrationTest() {
             .body()
             .`as`(WrapperPersonVO::class.java, objectMapper)
 
-        val people = wrapper.embedded!!.persons
+        val people = wrapper.embedded!!.personVOes
 
         val item1 = people?.get(0)
 

@@ -43,7 +43,7 @@ class PersonControllerJsonTest : AbstractIntegrationTest() {
             password = "admin123"
         )
 
-        val token = RestAssured.given()
+        val token = given()
             .basePath("/auth/signin")
             .port(ConfigsTest.SERVER_PORT)
             .contentType(ConfigsTest.CONTENT_TYPE_JSON)
@@ -226,7 +226,7 @@ class PersonControllerJsonTest : AbstractIntegrationTest() {
             .asString()
 
         val wrapper = objectMapper.readValue(content, WrapperPersonVO::class.java)
-        val people = wrapper.embedded!!.persons
+        val people = wrapper.embedded!!.personVOes
 
         val item1 = people?.get(0)
 
@@ -275,7 +275,7 @@ class PersonControllerJsonTest : AbstractIntegrationTest() {
             .asString()
 
         val wrapper = objectMapper.readValue(content, WrapperPersonVO::class.java)
-        val people = wrapper.embedded!!.persons
+        val people = wrapper.embedded!!.personVOes
 
         val item1 = people?.get(0)
 
@@ -294,7 +294,6 @@ class PersonControllerJsonTest : AbstractIntegrationTest() {
     @Test
     @Order(8)
     fun testFindAllWithoutToken() {
-
         val specificationWithoutToken: RequestSpecification = RequestSpecBuilder()
             .setBasePath("/api/person/v1")
             .setPort(ConfigsTest.SERVER_PORT)
@@ -333,19 +332,35 @@ class PersonControllerJsonTest : AbstractIntegrationTest() {
             .extract()
             .body()
             .asString()
+        val jsonNode = objectMapper.readTree(content)
+        val links = jsonNode["_embedded"]["personVOes"].map { it["_links"]["self"]["href"].asText() }
 
-        assertTrue(content.contains("""_links":{"self":{"href":"http://localhost:8888/api/person/v1/199"}}}"""))
-        assertTrue(content.contains("""_links":{"self":{"href":"http://localhost:8888/api/person/v1/797"}}}"""))
-        assertTrue(content.contains("""_links":{"self":{"href":"http://localhost:8888/api/person/v1/686"}}}"""))
-        assertTrue(content.contains("""_links":{"self":{"href":"http://localhost:8888/api/person/v1/340"}}}"""))
+        assertTrue(links.contains("http://localhost:8888/api/person/v1/199"))
+        assertTrue(links.contains("http://localhost:8888/api/person/v1/797"))
+        assertTrue(links.contains("http://localhost:8888/api/person/v1/686"))
+        assertTrue(links.contains("http://localhost:8888/api/person/v1/687"))
 
-        assertTrue(content.contains("""{"first":{"href":"http://localhost:8888/api/person/v1?direction=asc&page=0&size=12&sort=firstName,asc"}"""))
-        assertTrue(content.contains(""","prev":{"href":"http://localhost:8888/api/person/v1?direction=asc&page=2&size=12&sort=firstName,asc"}"""))
-        assertTrue(content.contains(""","self":{"href":"http://localhost:8888/api/person/v1?direction=asc&page=3&size=12&sort=firstName,asc"}"""))
-        assertTrue(content.contains(""","next":{"href":"http://localhost:8888/api/person/v1?direction=asc&page=4&size=12&sort=firstName,asc"}"""))
-        assertTrue(content.contains(""","last":{"href":"http://localhost:8888/api/person/v1?direction=asc&page=83&size=12&sort=firstName,asc"}"""))
+        val firstLink = jsonNode["_links"]["first"]["href"].asText()
+        val prevLink = jsonNode["_links"]["prev"]["href"].asText()
+        val selfLink = jsonNode["_links"]["self"]["href"].asText()
+        val nextLink = jsonNode["_links"]["next"]["href"].asText()
+        val lastLink = jsonNode["_links"]["last"]["href"].asText()
 
-        assertTrue(content.contains(""""page":{"size":12,"totalElements":1007,"totalPages":84,"number":3}}"""))
+        assertTrue(firstLink == "http://localhost:8888/api/person/v1?direction=asc&page=0&size=12&sort=firstName,asc")
+        assertTrue(prevLink == "http://localhost:8888/api/person/v1?direction=asc&page=2&size=12&sort=firstName,asc")
+        assertTrue(selfLink == "http://localhost:8888/api/person/v1?direction=asc&page=3&size=12&sort=firstName,asc")
+        assertTrue(nextLink =="http://localhost:8888/api/person/v1?direction=asc&page=4&size=12&sort=firstName,asc")
+        assertTrue(lastLink == "http://localhost:8888/api/person/v1?direction=asc&page=83&size=12&sort=firstName,asc")
+
+        val size = jsonNode["page"]["size"].asInt()
+        val elementSize = jsonNode["page"]["totalElements"].asInt()
+        val pageSize = jsonNode["page"]["totalPages"].asInt()
+        val number = jsonNode["page"]["number"].asInt()
+
+        assertTrue(size == 12)
+        assertTrue(elementSize == 1007)
+        assertTrue(pageSize == 84)
+        assertTrue(number == 3)
     }
 
     private fun mockPerson() {

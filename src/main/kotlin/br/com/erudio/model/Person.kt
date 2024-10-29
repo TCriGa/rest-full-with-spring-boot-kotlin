@@ -1,12 +1,14 @@
 package br.com.erudio.model
 
 import jakarta.persistence.*
+import org.jetbrains.annotations.NotNull
 
 @Entity
 @Table(name = "person")
 data class Person(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     var id: Long = 0,
 
     @Column(name = "first_name", nullable = false, length = 80)

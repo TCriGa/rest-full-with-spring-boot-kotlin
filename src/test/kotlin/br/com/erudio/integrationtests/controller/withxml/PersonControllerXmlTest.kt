@@ -226,7 +226,7 @@ class PersonControllerXmlTest : AbstractIntegrationTest() {
             .asString()
 
         val wrapper = objectMapper.readValue(content, WrapperPersonVO::class.java)
-        val people = wrapper.embedded!!.persons
+        val people = wrapper.embedded!!.personVOes
 
         val item1 = people?.get(0)
 
@@ -275,7 +275,7 @@ class PersonControllerXmlTest : AbstractIntegrationTest() {
             .asString()
 
         val wrapper = objectMapper.readValue(content, WrapperPersonVO::class.java)
-        val people = wrapper.embedded!!.persons
+        val people = wrapper.embedded!!.personVOes
 
         val item1 = people?.get(0)
 

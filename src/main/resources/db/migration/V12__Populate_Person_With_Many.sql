@@ -1,4 +1,4 @@
-insert into PERSON (first_name, last_name, enabled, gender, address)
+insert into person (first_name, last_name, enabled, gender, address)
 values ('Nicky', 'Kirkhouse', b'1', 'Female', '668 Pennsylvania Court'),
        ('Mort', 'Easson', b'0', 'Male', '75362 Mesta Alley'),
        ('Raeann', 'Fydoe', b'1', 'Female', '153 Lotheville Alley'),

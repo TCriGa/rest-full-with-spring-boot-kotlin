@@ -41,7 +41,7 @@ internal class PersonServiceTest {
         val result = service.findById(1)
 
         assertNotNull(result)
-        assertNotNull(result.key)
+        assertNotNull(result.id)
         assertNotNull(result.links)
         assertTrue(result.links.toString().contains("</api/person/v1/1>;rel=\"self\""))
         assertEquals("Address Test1", result.address)
@@ -63,7 +63,7 @@ internal class PersonServiceTest {
         val result = service.create(vo)
 
         assertNotNull(result)
-        assertNotNull(result.key)
+        assertNotNull(result.id)
         assertNotNull(result.links)
         assertTrue(result.links.toString().contains("</api/person/v1/1>;rel=\"self\""))
         assertEquals("Address Test1", result.address)
@@ -97,7 +97,7 @@ internal class PersonServiceTest {
         val result = service.update(vo)
 
         assertNotNull(result)
-        assertNotNull(result.key)
+        assertNotNull(result.id)
         assertNotNull(result.links)
         assertTrue(result.links.toString().contains("</api/person/v1/1>;rel=\"self\""))
         assertEquals("Address Test1", result.address)

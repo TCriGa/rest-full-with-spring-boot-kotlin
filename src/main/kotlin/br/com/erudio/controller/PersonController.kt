@@ -131,7 +131,7 @@ class PersonController {
         return ResponseEntity.ok(service.findPersonByName(firstName, pageable))
     }
 
-
+    @CrossOrigin(origins = ["http://localhost:8080"])
     @GetMapping(
         value = ["/{id}"],
         produces = [MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML]
@@ -174,13 +174,11 @@ class PersonController {
             ),
         ]
     )
-    @CrossOrigin(origins = ["http://localhost:8080"])
-    fun findById(
-        @PathVariable(value = "id") id: Long,
-    ): PersonVO {
+    fun findById(@PathVariable(value = "id") id: Long): PersonVO {
         return service.findById(id)
     }
 
+    @CrossOrigin(origins = ["http://localhost:8080", "https://erudio.com.br"])
     @PostMapping(
         consumes = [MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML],
         produces = [MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML]
@@ -213,11 +211,9 @@ class PersonController {
             ),
         ]
     )
-    @CrossOrigin(origins = ["http://localhost:8080", "https://erudio.com.br"])
-    fun create(
-        @RequestBody person: PersonVO
-    ): PersonVO {
+    fun create(@RequestBody person: PersonVO): PersonVO {
         return service.create(person)
+
     }
 
     @PutMapping(
@@ -262,9 +258,7 @@ class PersonController {
             ),
         ]
     )
-    fun update(
-        @RequestBody person: PersonVO
-    ): PersonVO {
+    fun update(@RequestBody person: PersonVO): PersonVO {
         return service.update(person)
     }
 
@@ -314,7 +308,10 @@ class PersonController {
         return service.disablePerson(id)
     }
 
-    @DeleteMapping(value = ["{id}"])
+    @DeleteMapping(
+        value = ["/{id}"],
+        produces = [MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML]
+    )
     @Operation(
         summary = "Deletes a person", description = "Deletes a person",
         tags = ["People"],
@@ -346,9 +343,7 @@ class PersonController {
             ),
         ]
     )
-    fun delete(
-        @PathVariable(value = "id") id: Long,
-    ): ResponseEntity<*> {
+    fun delete(@PathVariable(value = "id") id: Long): ResponseEntity<*> {
         service.delete(id)
         return ResponseEntity.noContent().build<Any>()
     }
