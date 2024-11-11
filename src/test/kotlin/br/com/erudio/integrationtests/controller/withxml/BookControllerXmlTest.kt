@@ -177,7 +177,7 @@ class BookControllerXmlTest : AbstractIntegrationTest() {
             .asString()
 
         val wrapper = objectMapper.readValue(strContent, WrapperBookVO::class.java)
-        val content = wrapper.embedded!!.books
+        val content = wrapper.embedded!!.bookVOes
 
         val foundBookOne = content?.get(0)
 

@@ -91,7 +91,7 @@ class BookControllerYamlTest : AbstractIntegrationTest() {
                     )
             )
             .spec(specification)
-            .contentType(ConfigsTest.CONTENT_TYPE_YML)
+            .contentType(ConfigsTest.CONTENT_TYPE_JSON)
             .body(book, objectMapper)
             .`when`()
             .post()
@@ -100,6 +100,7 @@ class BookControllerYamlTest : AbstractIntegrationTest() {
             .extract()
             .body()
             .`as`(BookVO::class.java, objectMapper)
+
         assertNotNull(book.id)
         assertNotNull(book.title)
         assertNotNull(book.author)
@@ -227,7 +228,7 @@ class BookControllerYamlTest : AbstractIntegrationTest() {
             .body()
             .`as`(WrapperBookVO::class.java, objectMapper)
 
-        val books = wrapper.embedded!!.books
+        val books = wrapper.embedded!!.bookVOes
 
         val foundBookOne = books?.get(0)
 

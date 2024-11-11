@@ -4,6 +4,6 @@ import br.com.erudio.integrationtests.vo.BookVO
 import com.fasterxml.jackson.annotation.JsonProperty
 
 class BookEmbeddedVO {
-    @JsonProperty("bookVOList")
-    var books: List<BookVO>? = null
+    @JsonProperty("bookVOes")
+    var bookVOes: List<BookVO>? = null
 }

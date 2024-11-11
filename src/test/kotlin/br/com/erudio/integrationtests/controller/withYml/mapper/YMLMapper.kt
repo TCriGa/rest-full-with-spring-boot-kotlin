@@ -11,7 +11,7 @@ import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingExcept
 import java.util.logging.Logger
 import com.fasterxml.jackson.databind.ObjectMapper as JacksonObjectMapper
 
-class YMLMapper : ObjectMapper {
+class YMLMapper : ObjectMapper{
 
     private val objectMapper: JacksonObjectMapper = JacksonObjectMapper(YAMLFactory())
     private val typeFactory: TypeFactory = TypeFactory.defaultInstance()

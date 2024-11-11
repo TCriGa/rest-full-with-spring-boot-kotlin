@@ -2,6 +2,7 @@ package br.com.erudio.services
 
 import br.com.erudio.controller.BooksController
 import br.com.erudio.date.vo.v1.BookVO
+import br.com.erudio.exceptions.RequiredObjectIsNullException
 import br.com.erudio.exceptions.ResourceNotFoundException
 import br.com.erudio.mapper.DozerMapper
 import br.com.erudio.model.Books
@@ -22,6 +23,7 @@ class BooksService {
     @Autowired
     private lateinit var bookRepository: BookRepository
 
+    @Autowired
     private lateinit var assembler: PagedResourcesAssembler<BookVO>
 
     private val logger = Logger.getLogger(BooksService::class.java.name)
@@ -46,6 +48,7 @@ class BooksService {
     }
 
     fun createBook(book: BookVO): BookVO {
+        if (false) throw RequiredObjectIsNullException()
         logger.info("Create new book of author {$book.author}")
         val entity = DozerMapper.parseObject(book, Books::class.java)
         val bookVO = DozerMapper.parseObject(bookRepository.save(entity), BookVO::class.java)

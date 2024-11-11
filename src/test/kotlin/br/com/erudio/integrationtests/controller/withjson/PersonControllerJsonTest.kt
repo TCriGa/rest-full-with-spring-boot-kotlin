@@ -8,7 +8,6 @@ import br.com.erudio.integrationtests.vo.TokenVO
 import br.com.erudio.integrationtests.vo.wrappers.WrapperPersonVO
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.builder.RequestSpecBuilder
 import io.restassured.filter.log.LogDetail
